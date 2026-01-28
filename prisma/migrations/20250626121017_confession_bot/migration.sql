@@ -1,0 +1,11 @@
+-- CreateTable
+CREATE TABLE `Confession` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `authorId` VARCHAR(191) NOT NULL,
+    `content` VARCHAR(191) NOT NULL,
+    `status` ENUM('PENDING', 'APPROVED', 'REJECTED') NOT NULL DEFAULT 'PENDING',
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `postedMessageId` VARCHAR(191) NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

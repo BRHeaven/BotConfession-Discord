@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Confession_PENDING {
+  id          Int      @id @default(autoincrement())
+  userId      String  
+  content     String   @db.LongText
+  status      String   @default("PENDING")
+  isAnonymous Boolean
+  createdAt   DateTime  @default(now())
+  isSent      Boolean  @default(false)
+}
+
+model Confession_APPROVED {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  content     String   @db.LongText
+  status      String   @default("APPROVED")
+  isAnonymous Boolean
+  createdAt   DateTime @default(now())
+  approvedBy  String
+  approvedAt  DateTime @default(now())
+}
+
+model Confession_REJECTED {
+  id          Int      @id @default(autoincrement())
+  userId      String
+  content     String   @db.LongText
+  status      String   @default("REJECTED")
+  isAnonymous Boolean
+  createdAt   DateTime @default(now())
+  rejectedBy  String
+  rejectedAt  DateTime @default(now())
+}
+
+model Config {
+  id                Int      @id @default(autoincrement())
+  guildId          String  @unique
+  forumChannelId    String
+  approvalChannelId String
+  createdAt         DateTime @default(now())
+}
