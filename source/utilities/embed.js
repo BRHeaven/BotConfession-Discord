@@ -1,5 +1,5 @@
 import { EmbedBuilder } from "@discordjs/builders";
-import { EDIT_FIRST_MESSAGE, GET_LIST_PENDING, GET_REPLY_ANONYMOUS, POST_FIRST_CHOICE, SET_CHANNEL_NAME, SET_FORUM_NAME, SET_ROLE_NAME, SET_SAVEPOINT_NAME, SHOW_CONFIG_GUILD, UNSET_CHANNEL_NAME, UNSET_FORUM_NAME, UNSET_ROLE_NAME } from "../interact/config/nametag.js";
+import { EDIT_FIRST_MESSAGE, GET_ANONYMOUS_NAME, GET_LIST_PENDING, GET_REPLY_ANONYMOUS, POST_FIRST_CHOICE, SET_CHANNEL_NAME, SET_FORUM_NAME, SET_ROLE_NAME, SET_SAVEPOINT_NAME, SHOW_CONFIG_GUILD, UNSET_CHANNEL_NAME, UNSET_FORUM_NAME, UNSET_ROLE_NAME } from "../interact/config/nametag.js";
 import { devID } from "../interact/config/config.js";
 
 export const embedNotificationError = (title, description, color) => {
