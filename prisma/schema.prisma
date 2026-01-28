@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model cfs_accept {
+  id        Int                @id @default(autoincrement())
+  userId    String?            @db.VarChar(255)
+  guild     String             @db.VarChar(255)
+  title     String?            @db.VarChar(255)
+  content   String?            @db.LongText
+  anonymous Boolean?           @default(true)
+  time      DateTime?          @default(now())
+  status    cfs_accept_status? @default(CONFIRM)
+  config    config             @relation(fields: [guild], references: [guild], onDelete: Cascade)
+
+  @@index([guild])
+}
+
+model cfs_pending {
+  id        Int                 @id @default(autoincrement())
+  userId    String?             @db.VarChar(255)
+  guild     String              @db.VarChar(255)
+  title     String?             @db.VarChar(255)
+  content   String?             @db.LongText
+  anonymous Boolean?            @default(true)
+  time      DateTime?           @default(now())
+  status    cfs_pending_status? @default(PENDING)
+  config    config              @relation(fields: [guild], references: [guild], onDelete: Cascade)
+
+  @@index([guild])
+}
+
+model cfs_refuse {
+  id        Int                @id @default(autoincrement())
+  userId    String?            @db.VarChar(255)
+  guild     String             @db.VarChar(255)
+  title     String?            @db.VarChar(255)
+  content   String?            @db.LongText
+  anonymous Boolean?           @default(true)
+  time      DateTime?          @default(now())
+  status    cfs_refuse_status? @default(CONFIRM)
+  config    config             @relation(fields: [guild], references: [guild], onDelete: Cascade)
+
+  @@index([guild])
+}
+
+model config {
+  guild              String               @id @db.VarChar(255)
+  channel            String?              @db.VarChar(255)
+  forum              String?              @db.VarChar(255)
+  time               DateTime?            @default(now())
+  savepoint          Int?
+  anonymous_reply    anonymous_reply[]
+  cfs_accept         cfs_accept[]
+  cfs_pending        cfs_pending[]
+  cfs_refuse         cfs_refuse[]
+  register_anonymous register_anonymous[]
+  role               role[]
+}
+
+model role {
+  id     Int       @id @default(autoincrement())
+  roleId String?   @db.VarChar(255)
+  guild  String    @db.VarChar(255)
+  time   DateTime? @default(now())
+  config config    @relation(fields: [guild], references: [guild], onDelete: Cascade)
+
+  @@index([guild])
+}
+
+model anonymous_reply {
+  id         Int     @id @default(autoincrement())
+  thread     String? @db.VarChar(255)
+  listUserID Json?
+  guild      String  @db.VarChar(255)
+  config     config  @relation(fields: [guild], references: [guild], onDelete: NoAction, onUpdate: NoAction, map: "anonymous_reply_ibfk_1")
+
+  @@index([guild], map: "guild")
+}
+
+model register_anonymous {
+  id     Int      @id @default(autoincrement())
+  guild  String   @db.VarChar(255)
+  idUser String?  @db.VarChar(255)
+  flag   Boolean?
+  config config   @relation(fields: [guild], references: [guild], onDelete: Cascade, map: "register_anonymous_ibfk_1")
+
+  @@index([guild], map: "guild")
+}
+
+enum cfs_accept_status {
+  PENDING
+  REFUSE
+  ACCEPT
+  CONFIRM
+}
+
+enum cfs_refuse_status {
+  PENDING
+  REFUSE
+  ACCEPT
+  CONFIRM
+}
+
+enum cfs_pending_status {
+  PENDING
+  REFUSE
+  ACCEPT
+  CONFIRM
+}
