@@ -1,9 +1,9 @@
 import { asyncErrorHandler } from "../../middlewares/errorHandler.js";
-import { GET_ANONYMOUS_NAME, GET_MODAL_ANONYMOUS_NAME } from "../config/nametag.js";
+import { HANDLE_MODAL_ANONYMOUS, NAME_ANONYMOUS } from "../config/nametag.js";
 import { modalWriteCFS } from "../modal/modalWriteCFS.js";
 
-export const name = GET_ANONYMOUS_NAME;
+export const name = NAME_ANONYMOUS;
 export const execute = asyncErrorHandler(async (interaction) => {
-    const modal = await modalWriteCFS(GET_MODAL_ANONYMOUS_NAME);
+    const modal = await modalWriteCFS(HANDLE_MODAL_ANONYMOUS);
     await interaction.showModal(modal);
 }, null);

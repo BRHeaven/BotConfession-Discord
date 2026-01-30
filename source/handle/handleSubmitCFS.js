@@ -1,7 +1,7 @@
 import { asyncErrorHandler } from "../middlewares/errorHandler.js";
-import { GET_ANONYMOUS_NAME, SET_CHANNEL_NAME } from "../interact/config/nametag.js";
+import { CONFIG_CHANNEL_TEXT, CONFIG_SET, CONFIG_SETTINGS, NAME_ANONYMOUS } from "../interact/config/nametag.js";
 import { getVietnamTime } from "../utilities/timezone.js";
-import { embedAPPROVAL } from "../utilities/embed.js";
+import { embedAPPROVAL, embedNotificationDefault } from "../utilities/embed.js";
 import prisma from "../utilities/prisma.js";
 import { buttonsRejectorApprove } from "../interact/button/buttons.js";
 
@@ -14,7 +14,7 @@ export const handleSubmitCFS = asyncErrorHandler(async (interaction, tag) => {
             guild: interaction.guild.id,
             title: titleCFS,
             content: contentCFS,
-            anonymous: tag === GET_ANONYMOUS_NAME ? true : false,
+            anonymous: tag === NAME_ANONYMOUS ? true : false,
             time: getVietnamTime(),
         },
     });
@@ -27,7 +27,7 @@ export const handleSubmitCFS = asyncErrorHandler(async (interaction, tag) => {
         return await interaction.editReply({
             embeds: [embedNotificationDefault(
                 ':warning: Chưa có kênh duyệt confession',
-                `Chưa có kênh kiểm duyệt confession. Nên không thể gửi bài viết của bạn. Liên hệ ADMIN để yêu cầu họ thiết lập bằng lệnh \`/${SET_CHANNEL_NAME}\``,
+                `Chưa có kênh kiểm duyệt confession. Nên không thể gửi bài viết của bạn. Liên hệ ADMIN để yêu cầu họ thiết lập bằng lệnh \`/${CONFIG_SETTINGS} ${CONFIG_SET} ${CONFIG_CHANNEL_TEXT}\``,
                 0xFFFF00,
             )],
             ephemeral: true,
@@ -47,5 +47,5 @@ export const handleSubmitCFS = asyncErrorHandler(async (interaction, tag) => {
         )],
         components: [buttons],
     });
-    return;
+    return true;
 }, null);

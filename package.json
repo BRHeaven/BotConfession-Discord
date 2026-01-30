@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon --quiet --env-file=.env main.js",
-    "deploy-commands": "node source/utilities/deploy-commands.js"
+    "deploy-commands": "node source/utilities/deploy-commands.js",
+    "delete-commands": "node source/utilities/delete-commands.js"
   },
   "author": "",
   "license": "ISC",

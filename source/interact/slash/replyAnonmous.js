@@ -1,13 +1,13 @@
 import { SlashCommandBuilder } from "discord.js";
 import { asyncErrorHandler } from "../../middlewares/errorHandler.js";
-import { GET_REPLY_ANONYMOUS } from "../config/nametag.js";
+import { MESSAGE_ANONYMOUS } from "../config/nametag.js";
 import { handleReplyAnonymous } from "../../handle/handleReplyAnonymous.js";
 import { embedNotificationAmonymous, embedNotificationDefault } from "../../utilities/embed.js";
 import prisma from "../../utilities/prisma.js";
 
-export const name = GET_REPLY_ANONYMOUS;
+export const name = MESSAGE_ANONYMOUS;
 export const data = new SlashCommandBuilder()
-    .setName(GET_REPLY_ANONYMOUS)
+    .setName(MESSAGE_ANONYMOUS)
     .setDescription('Trả lời ẩn danh cho một confession')
     .addStringOption(option =>
         option.setName('nội_dung_trả_lời')

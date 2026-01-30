@@ -1,49 +1,15 @@
 import { asyncErrorHandler } from "../../middlewares/errorHandler.js";
-import { EDIT_FIRST_MESSAGE, GET_ANONYMOUS_NAME, GET_IDENTIFY_NAME } from "../config/nametag.js";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } from "discord.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { embedNotificationDefault } from "../../utilities/embed.js";
+import { NAME_ANONYMOUS, NAME_IDENTIFY } from "../config/nametag.js";
 import { devID } from "../config/config.js";
 
-export const name = EDIT_FIRST_MESSAGE;
-export const data = new SlashCommandBuilder()
-    .setName(EDIT_FIRST_MESSAGE)
-    .setDescription('Chỉnh sửa tin nhắn lựa chọn viết confessions')
-    .addStringOption(option =>
-        option.setName('message_id')
-            .setDescription('ID tin nhắn cần chỉnh sửa nội dung')
-            .setRequired(true)
-    )
-    .addStringOption(option =>
-        option.setName('channel_id')
-            .setDescription('ID kênh chứa tin nhắn (bỏ trống nếu tin nhắn ở kênh hiện tại)')
-            .setRequired(false)
-    )
-    .addBooleanOption(option =>
-        option.setName('input_content')
-            .setDescription('Chọn true để thay đổi nội dung, false bot sẽ tự động chỉnh sửa lại nội dung')
-            .setRequired(false)
-    )
-    .addStringOption(option =>
-        option.setName('new_title')
-            .setDescription('Nội dung mới cho tiêu đề (chỉ khi chọn là true)')
-            .setRequired(false)
-            .setMaxLength(150)
-            .setMinLength(10)
-    )
-    .addStringOption(option =>
-        option.setName('new_content')
-            .setDescription('Nội dung mới cho tin nhắn (chỉ khi chọn là true)')
-            .setRequired(false)
-            .setMaxLength(2000)
-            .setMinLength(50)
-    );
-export const execute = asyncErrorHandler(async (interaction) => {
-    await interaction.deferReply({ ephemeral: false });
+export const editWriteOptions = asyncErrorHandler(async (interaction) => {
     if (!devID.includes(interaction.user.id)) {
         return await interaction.editReply({
             embeds: [embedNotificationDefault(
-                ':no_entry: Quyền DEVALOPER',
-                'Bạn không có quyền sử dụng lệnh này, lệnh chỉ dành cho DEVALOPER.',
+                ':no_entry: Quyền DEVELOPER',
+                'Bạn không có quyền sử dụng lệnh này, lệnh chỉ dành cho DEVELOPER.',
                 0xFF0000)]
         });
     };
@@ -74,11 +40,11 @@ export const execute = asyncErrorHandler(async (interaction) => {
     };
     const buttonPostCFS = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-            .setCustomId(GET_ANONYMOUS_NAME)
+            .setCustomId(NAME_ANONYMOUS)
             .setLabel('Gửi ẩn danh')
             .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-            .setCustomId(GET_IDENTIFY_NAME)
+            .setCustomId(NAME_IDENTIFY)
             .setLabel('Gửi công khai')
             .setStyle(ButtonStyle.Primary),
     );

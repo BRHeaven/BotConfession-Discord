@@ -1,12 +1,12 @@
 import prisma from "../../utilities/prisma.js";
 import { asyncErrorHandler } from "../../middlewares/errorHandler.js";
-import { GET_ANONYMOUS_NAME, GET_BUTTON_CONFIRM, GET_IDENTIFY_NAME, STATUS_ACCEPT, STATUS_CONFIRM, STATUS_PENDING, STATUS_REFUSE } from "../config/nametag.js";
+import { HANDLE_BUTTON_CONFIRM, NAME_ANONYMOUS, NAME_IDENTIFY, STATUS_ACCEPT, STATUS_CONFIRM, STATUS_PENDING, STATUS_REFUSE } from "../config/nametag.js";
 import { hasPermission } from "../config/permission.js";
 import { embedAPPROVAL, embedNotificationDefault } from "../../utilities/embed.js";
 import { handlePostCFS } from "../../handle/handlePostCFS.js";
 import { handleDeleteCFS } from "../../handle/handleDeteleCFS.js";
 
-export const name = GET_BUTTON_CONFIRM;
+export const name = HANDLE_BUTTON_CONFIRM;
 export const execute = asyncErrorHandler(async (interaction) => {
     await interaction.deferUpdate();
     if (!await hasPermission(interaction)) {
@@ -18,7 +18,7 @@ export const execute = asyncErrorHandler(async (interaction) => {
             )],
         });
     };
-    const cfsID = parseInt(interaction.customId.replace(GET_BUTTON_CONFIRM, ''));
+    const cfsID = parseInt(interaction.customId.replace(HANDLE_BUTTON_CONFIRM, ''));
     const confession = await prisma.cfs_pending.findFirst({
         where: {
             id: cfsID,
@@ -40,7 +40,7 @@ export const execute = asyncErrorHandler(async (interaction) => {
                     confession.title,
                     confession.content,
                     config.savepoint + 1,
-                    confession.anonymous === true ? GET_ANONYMOUS_NAME : GET_IDENTIFY_NAME,
+                    confession.anonymous === true ? NAME_ANONYMOUS : NAME_IDENTIFY,
                     confession.userId,
                     0x00FF00
                 )],
@@ -56,7 +56,7 @@ export const execute = asyncErrorHandler(async (interaction) => {
                     confession.title,
                     confession.content,
                     config.savepoint + 1,
-                    confession.anonymous === true ? GET_ANONYMOUS_NAME : GET_IDENTIFY_NAME,
+                    confession.anonymous === true ? NAME_ANONYMOUS : NAME_IDENTIFY,
                     confession.userId,
                     0xFF0000
                 )],

@@ -1,16 +1,11 @@
 import { asyncErrorHandler } from "../../middlewares/errorHandler.js";
-import { POST_FIRST_CHOICE, GET_ANONYMOUS_NAME, GET_IDENTIFY_NAME, SET_FORUM_NAME } from "../config/nametag.js";
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, SlashCommandBuilder } from "discord.js";
+import { CONFIG_CHANNEL_FORUM, CONFIG_EDIT, CONFIG_OPTIONS, CONFIG_SET, CONFIG_SETTINGS, CONFIG_WRITE_OPTIONS, NAME_ANONYMOUS, NAME_IDENTIFY } from "../config/nametag.js";
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle } from "discord.js";
 import { embedNotificationDefault } from "../../utilities/embed.js";
 import { permissionAdmin } from "../config/permission.js";
 import prisma from "../../utilities/prisma.js";
 
-export const name = POST_FIRST_CHOICE;
-export const data = new SlashCommandBuilder()
-    .setName(POST_FIRST_CHOICE)
-    .setDescription('Đăng bài lựa chọn viết confession ẩn danh hoặc công khai');
-export const execute = asyncErrorHandler(async (interaction) => {
-    await interaction.deferReply({ ephemeral: false });
+export const setWriteOptions = asyncErrorHandler(async (interaction) => {
     if (!await permissionAdmin(interaction)) {
         return await interaction.editReply({
             embeds: [embedNotificationDefault(
@@ -30,18 +25,18 @@ export const execute = asyncErrorHandler(async (interaction) => {
         return await interaction.editReply({
             embeds: [embedNotificationDefault(
                 ':warning: Chưa chọn kênh diễn đàn',
-                `Vui lòng dùng lệnh \`${SET_FORUM_NAME}\` trước khi sử dụng lệnh này.`,
+                `Vui lòng dùng lệnh \`/${CONFIG_SETTINGS} ${CONFIG_SET} ${CONFIG_CHANNEL_FORUM}\` trước khi sử dụng lệnh này.`,
                 0xFFFF00)],
             ephemeral: false,
         });
     };
     const buttonCFS = new ActionRowBuilder().addComponents(
         new ButtonBuilder()
-            .setCustomId(GET_ANONYMOUS_NAME)
+            .setCustomId(NAME_ANONYMOUS)
             .setLabel('Viết ẩn danh')
             .setStyle(ButtonStyle.Secondary),
         new ButtonBuilder()
-            .setCustomId(GET_IDENTIFY_NAME)
+            .setCustomId(NAME_IDENTIFY)
             .setLabel('Viết công khai')
             .setStyle(ButtonStyle.Primary)
     );
@@ -61,7 +56,7 @@ export const execute = asyncErrorHandler(async (interaction) => {
     return await interaction.editReply({
         embeds: [embedNotificationDefault(
             `✅ Đã đăng bài thành công`,
-            `Để sữa đổi nội dung bài viết dùng lệnh \`${POST_FIRST_CHOICE}\` có hướng dẫn chi tiết trong lệnh đó. Nếu cần hỗ trợ liên hệ ADMIN.`,
+            `Để sữa đổi nội dung bài viết dùng lệnh \`/${CONFIG_OPTIONS} ${CONFIG_EDIT} ${CONFIG_WRITE_OPTIONS}\` có hướng dẫn chi tiết trong lệnh đó. Nếu cần hỗ trợ liên hệ ADMIN.`,
             0x00FF00
         )],
         ephemeral: false,

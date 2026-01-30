@@ -1,17 +1,11 @@
 import { asyncErrorHandler } from "../../middlewares/errorHandler.js";
-import { GET_ANONYMOUS_NAME, GET_LIST_PENDING, STATUS_ACCEPT, STATUS_PENDING, STATUS_REFUSE } from "../config/nametag.js";
+import { NAME_ANONYMOUS, STATUS_ACCEPT, STATUS_PENDING, STATUS_REFUSE } from "../config/nametag.js";
 import { hasPermission } from "../config/permission.js";
-import { SlashCommandBuilder } from "discord.js";
 import { embedAPPROVAL, embedNotificationDefault } from "../../utilities/embed.js";
 import prisma from "../../utilities/prisma.js";
 import { buttonsRejectorApprove } from "../button/buttons.js";
 
-export const name = GET_LIST_PENDING;
-export const data = new SlashCommandBuilder()
-    .setName(GET_LIST_PENDING)
-    .setDescription('Gửi lại sách Confession chờ duyệt');
-export const execute = asyncErrorHandler(async (interaction) => {
-    await interaction.deferReply({ ephemeral: false });
+export const getListPending = asyncErrorHandler(async (interaction) => {
     if (!await hasPermission(interaction)) {
         return await interaction.editReply({
             embeds: [embedNotificationDefault(
@@ -61,7 +55,7 @@ export const execute = asyncErrorHandler(async (interaction) => {
                 confession.title,
                 confession.content,
                 config.savepoint + 1,
-                confession.anonymous === GET_ANONYMOUS_NAME ? true : false,
+                confession.anonymous === NAME_ANONYMOUS ? true : false,
                 interaction.user.id,
                 0x00B0FF,
             )],

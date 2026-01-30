@@ -1,9 +1,9 @@
 import { ActionRowBuilder, ModalBuilder, TextInputBuilder, TextInputStyle } from "discord.js";
 import { asyncErrorHandler } from "../../middlewares/errorHandler.js";
-import { GET_MODAL_ANONYMOUS_NAME } from "../config/nametag.js";
+import { HANDLE_MODAL_ANONYMOUS } from "../config/nametag.js";
 
 export const modalWriteCFS = asyncErrorHandler(async (customId) => {
-    const title = customId === GET_MODAL_ANONYMOUS_NAME ? "Viết Confession Ẩn Danh" : "Viết Confession Hiện Tên";
+    const title = customId === HANDLE_MODAL_ANONYMOUS ? "Viết Confession Ẩn Danh" : "Viết Confession Hiện Tên";
     const titleCFS = new TextInputBuilder()
         .setCustomId("title_cfs")
         .setLabel("Tiêu đề Confession")
