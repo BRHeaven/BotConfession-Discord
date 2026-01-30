@@ -66,6 +66,7 @@ export const editWriteOptions = asyncErrorHandler(async (interaction) => {
         });
     } else {
         await message.edit({
+            content: ``,
             embeds: [embedNotificationDefault(
                 '✏️ **Viết Confession tại đây**',
                 'Bạn có thể chia sẻ suy nghĩ, cảm xúc hoặc câu chuyện của mình một cách tự do\n' +

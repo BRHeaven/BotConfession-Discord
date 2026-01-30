@@ -3,7 +3,7 @@ import { CONFIG_EDIT, CONFIG_GET, CONFIG_OPTIONS, CONFIG_PUT, CONFIG_SAVEPOINT, 
 import { asyncErrorHandler } from "../../middlewares/errorHandler.js";
 import { setSavePoint } from "./setSavePoint.js";
 import { setWriteOptions } from "./setWriteOptions.js";
-import { editWriteOptions } from "./editFirstMessage.js";
+import { editWriteOptions } from "./editWriteOptions.js";
 import { getListPending } from "./getListPending.js";
 
 export const name = CONFIG_OPTIONS;
