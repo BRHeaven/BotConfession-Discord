@@ -30,4 +30,13 @@ export const COMMAND_INSTRUCTIONS = 'huongdan_lenh';
 export const LIST_PENDING = 'danhsach_cho_duyet';
 export const LIST_APPROVED = 'danhsach_da_duyet';
 export const LIST_REJECTED = 'danhsach_bi_tu_choi';
-export const MESSAGE_ANONYMOUS = 'nhan_andanh';
+export const MESSAGE_ANONYMOUS = 'nhantin';
+// 
+export const GLOBAL = 'global';
+export const GLOBAL_LIST = 'list';
+export const GLOBAL_ALL_LIST = 'all';
+export const GLOBAL_ANONYMOUS_REPLY = 'anonymous_reply';
+export const GLOBAL_CFS_PENDING = 'pending';
+export const GLOBAL_CFS_ACCEPT = 'accept';
+export const GLOBAL_CFS_REFUSE = 'refuse';
+export const GLOBAL_REPLY = 'reply';

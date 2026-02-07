@@ -5,6 +5,7 @@ import { handleSubmitCFS } from "./handleSubmitCFS.js";
 
 export const name = HANDLE_MODAL_IDENTIFY;
 export const execute = asyncErrorHandler(async (interaction) => {
+    console.log(true);
     await interaction.deferReply({ ephemeral: true });
     const flag = await handleSubmitCFS(interaction, NAME_IDENTIFY);
     if (flag === true) {

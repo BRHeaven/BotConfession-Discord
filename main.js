@@ -10,8 +10,9 @@ const client = new Client({
         GatewayIntentBits.Guilds,
         GatewayIntentBits.GuildMessages,
         GatewayIntentBits.MessageContent,
+        GatewayIntentBits.DirectMessages,
     ],
-    partials: [Partials.Channel]
+    partials: [Partials.Channel, Partials.DM]
 });
 client.commands = new Collection();
 client.buttons = new Collection();
@@ -28,7 +29,9 @@ client.on(Events.ClientReady, async (guild) => {
 await loadCommands( { client, folders: ['source/interact/button'], targetMap: client.buttons});
 await loadCommands( { client, folders: ['source/interact/modal'], targetMap: client.modals});
 await loadCommands( { client, folders: ['source/interact/slash'], targetMap: client.slash});
-await loadCommands({ client, folders: ['source/handle'], targetMap: client.modals});
+await loadCommands( { client, folders: ['source/handle'], targetMap: client.modals});
+await loadCommands({ client, folders: ['source/interact/global'], targetMap: client.slash});
+await loadCommands({ client, folders: ['source/interact/global/buttons'], targetMap: client.buttons});
 await loadEvent(client);
 
 client.login(process.env.DISCORD_TOKEN);

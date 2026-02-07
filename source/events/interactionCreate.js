@@ -21,7 +21,12 @@ export const execute = async (interaction) => {
     if (interaction.isButton()) {
         let button = null;
         for (const [key, handler] of client.buttons) {
-            if (interaction.customId.startsWith(key)) {
+            if (key instanceof RegExp) {
+                if (key.test(interaction.customId)) {
+                    button = handler;
+                    break;
+                }
+            } else if (interaction.customId.startsWith(key)) {
                 button = handler;
                 break;
             }

@@ -58,7 +58,6 @@ export const embedConfigGuild = (config, roles) => {
         )
         .setColor(0x00B0FF);
 };
-
 export const embedHelp = (color) => {
     return new EmbedBuilder()
         .setTitle('📖 Hướng dẫn sử dụng Bot Confession')
@@ -91,13 +90,84 @@ export const embedHelp = (color) => {
         )
         .setColor(color);
 };
-
 export const embedNotificationAmonymous = (color) => {
     return new EmbedBuilder()
         .setTitle('📢 Lưu ý khi gửi tin nhắn ẩn danh')
         .setDescription(`Đây là một lệnh có thể sử dụng ngoài mục đích trả lời các Confession nên có vài việc bạn cần lưu ý`)
         .addFields(
             { name: `Lưu ý`, value: `- Lệnh \`/${MESSAGE_ANONYMOUS}\` sẽ lưu lại ID của bạn qua mỗi kênh riêng biệt bạn đã sử dụng sau đó chuyển thành tin nhắn với cái tên là \`Anonymous #(Số bất kỳ bot gán cho bạn)\` .\n- ADMIN sẽ hoặc bất kỳ ai cũng sẽ không biết bạn là ai nếu bạn cẩn thận không để lộ \`you is typing...\`.\n- Nhưng với một số trường bạn sử dụng nó với mục đích công kích, xúc phạm, phân biệt vùng miền, gửi mã độc,... \`ADMIN hoặc MOD có thể yêu cầu bên tôi cung cấp thông tin. Tuỳ mức độ ADMIN và MOD cho là nghiêm trọng sẽ xử lý, nặng nhất bị multi-server ban vĩnh viễn không thể vô lại được vì BOT ban rất khác với ADMIN hay MOD tự ban (không thể gỡ)\`\n- Lệnh này không liên quan gì đến bên Confession cả nên bạn yên tâm là bài viết của bạn sẽ hoàn toàn riêng biệt về thông tin. Người phát triển Bot cũng sẽ không biết được bạn là ai nếu bạn đăng Confession ||Ẩn Danh||\n- Nếu còn thắc mắc bạn có để gửi tin nhắn riêng cho <@${devID}> để được giải đáp` }
+        )
+        .setColor(color);
+};
+export const embedListAmonymousReply = (guild, channel, list, color) => {
+    return new EmbedBuilder()
+        .setTitle(`📋 **LIST ANONYMOUS**`)
+        .setDescription(`**Guild:** ${guild.name} (**ID:** ${guild.id})\n**Channel:** ${channel.name} (**ID:** ${channel.id})`)
+        .addFields(
+            { name: `Total: ${list.length}`, value: `${list.userID}` }
+        )
+        .setColor(color);
+};
+export const embedListCFS = (guild, list, nameList, totalCFS, color) => {
+    let render = '';
+    let index = 1;
+    for (const item of list) {
+        render += `**Detail:** #${index}\n**Name:** ${item.user}\n **TITLE:** ${item.title}\n **STATUS:** ${item.status}\n **TIME:** ${item.time}\n\n`;
+        index++;
+    };
+    return new EmbedBuilder()
+        .setTitle(`📋 **LIST ${nameList} CONFESSIONS**`)
+        .setDescription(`**Guild:** ${guild.name} (**ID:** ${guild.id})`)
+        .addFields(
+            { name: `Total: ${totalCFS}`, value: render }
+        )
+        .setColor(color);
+};
+export const embedDetailCFS = (nameGuild, idGuild, confession, color) => {
+    const timestamp = Math.floor(new Date(confession.time).getTime() / 1000);
+    return new EmbedBuilder()
+        .setTitle(`📋 **${confession.title}**`)
+        .setDescription(confession.content)
+        .addFields(
+            { name: `Guild:`, value: `${nameGuild} (ID: ${idGuild})`, inline: true },
+            { name: `User:`, value: `<@${confession.userId}> (ID: ${confession.userId})`, inline: true },
+            { name: ``, value: ``, inline: false },
+            { name: `Status:`, value: `${confession.status}`, inline: true },
+            { name: `Time:`, value: `<t:${timestamp}:F>`, inline: true },
+        )
+        .setColor(color
+        )
+};
+export const embedListALLCFS = (list, tag, quantity, color) => {
+    let render = '';
+    let index = 1;
+    for (const item of list) {
+        render += `**Detail:** #${index}\n**Guild:** ${item.guild.name} (ID: ${item.guild.id})\n**Name:** ${item.user}\n **TITLE:** ${item.title}\n **TIME:** ${item.time}\n\n`;
+        index++;
+    };
+    return new EmbedBuilder()
+        .setTitle(`📋 **LIST ALL ${tag} CONFESSIONS**`)
+        .setDescription(`Total: ${quantity}`)
+        .addFields(
+            { name: `**List**`, value: render }
+        )
+        .setColor(color);
+};
+export const embedAllListAmonymousReply = (array, quantity, color) => {
+    let render = '';
+    let listUser = '';
+    for (const item of array) {
+        for (const object of item.list) {
+            listUser += `<@${object}>, `;
+        };
+        render += `**Guild:** ${item.guild.name} (ID: ${item.guild.id})\n**Channel:** ${item.channel.name} (ID: ${item.channel.id})\n**List Users:** ${listUser}\n\n`;
+        listUser = '';
+    };
+    return new EmbedBuilder()
+        .setTitle(`📋 **LIST ANONYMOUS REPLY**`)
+        .setDescription(`Total: ${quantity}`)
+        .addFields(
+            { name: `List`, value: `${render}` }
         )
         .setColor(color);
 };
